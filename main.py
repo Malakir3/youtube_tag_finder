@@ -22,7 +22,6 @@ def youtube_search():
   youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=DEVELOPER_KEY)
 
-
   search_response = youtube.search().list(
     q = SEARCH_WORD,
     type = "video",
