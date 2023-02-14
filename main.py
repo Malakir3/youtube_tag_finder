@@ -20,21 +20,24 @@ def youtube_search():
     q = SEARCH_WORD,
     type = "video",
     part="id,snippet",
-    maxResults="10",
+    maxResults="3",
     # channelId = CHANNEL_ID,
     videoDuration = "medium",
     order = "viewCount"
   ).execute()
 
-  # タグを検索
-  for video in search_response.get("items", []):  
-    snippet = youtube.videos().list(
-      id = video["id"]["videoId"],
-      type = "video",
-      part="snippet",
+  tags = []
+  # 動画の詳細情報を検索
+  for each_video in search_response.get("items", []):    
+    video_detail = youtube.videos().list(
+      id = each_video["id"]["videoId"],
+      part = "snippet"
     ).execute()
 
-    print(snippet["tags"])
+    # タグを取得
+    tags.append("%s" % (video_detail["items"][0]["snippet"]["tags"]))
+    
+  print(tags)
 
   # 結果の出力が不要であれば、以下は削除する
   videos = []
