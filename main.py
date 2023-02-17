@@ -1,13 +1,14 @@
 #!/usr/bin/python
 
 # テンプレート記載モジュール
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+from googleapiclient.discovery import build
+# from apiclient.errors import HttpError
 # from oauth2client.tools import argparser
 
 # 追記モジュール
 from dotenv import load_dotenv
 import os
+import json
 # import detail_search
 
 ################################################################################
@@ -26,40 +27,28 @@ def youtube_search():
     order = "viewCount"
   ).execute()
 
-  tags = []
   # 動画の詳細情報を検索
+  finder_result = []
   for each_video in search_response.get("items", []):    
     video_detail = youtube.videos().list(
       id = each_video["id"]["videoId"],
-      part = "snippet"
+      part = "snippet,statistics"
     ).execute()
 
-    # タグを取得
-    tags.append("%s" % (video_detail["items"][0]["snippet"]["tags"]))
-    
-  print(tags)
+    # 一時的な辞書を作成
+    tmp_dict = {}
+    tmp_dict["title"] = video_detail["items"][0]["snippet"]["title"]
+    tmp_dict["view_count"] = video_detail["items"][0]["statistics"]["viewCount"]
+    tmp_dict["tags"] = video_detail["items"][0]["snippet"]["tags"]
 
-  # 結果の出力が不要であれば、以下は削除する
-  videos = []
-  channels = []
-  playlists = []
+    # 結果配列に辞書を格納
+    finder_result.append(tmp_dict)
 
-  # "items"の値部分(配列)の各要素について繰り返し
-  for search_result in search_response.get("items", []):
-    if search_result["id"]["kind"] == "youtube#video":
-      videos.append("%s (%s)" % (search_result["snippet"]["title"],
-                                 search_result["id"]["videoId"]))
-    elif search_result["id"]["kind"] == "youtube#channel":
-      channels.append("%s (%s)" % (search_result["snippet"]["title"],
-                                   search_result["id"]["channelId"]))
-    elif search_result["id"]["kind"] == "youtube#playlist":
-      playlists.append("%s (%s)" % (search_result["snippet"]["title"],
-                                    search_result["id"]["playlistId"]))
-
-  # 配列の中身を改行コードで連結して出力
-  print ("Videos:\n", "\n".join(videos), "\n")
-  # print ("Channels:\n", "\n".join(channels), "\n")
-  # print ("Playlists:\n", "\n".join(playlists), "\n")
+  ##########################################################
+  # 任意の後続処理
+  json_result = json.dumps(finder_result,indent=4,ensure_ascii=False)
+  print(json_result)
+  ##########################################################
 
   return search_response
 ################################################################################
