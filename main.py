@@ -2,14 +2,14 @@
 
 # テンプレート記載モジュール
 from googleapiclient.discovery import build
-# from apiclient.errors import HttpError
 # from oauth2client.tools import argparser
 
 # 追記モジュール
 from dotenv import load_dotenv
 import os
 import json
-# import detail_search
+import pandas
+import data_analyze
 
 ################################################################################
 def youtube_search():
@@ -50,7 +50,7 @@ def youtube_search():
   print(json_result)
   ##########################################################
 
-  return search_response
+  return finder_result
 ################################################################################
 # 環境変数の読み込み
 load_dotenv()
@@ -67,16 +67,8 @@ if __name__ == "__main__":
   # argparser.add_argument("--max-results", help="Max results", default=5)
   # args = argparser.parse_args()
 
-  # 動画一覧を取得
-  search_result = youtube_search()
+  # 動画詳細の一覧を取得
+  finder_result = youtube_search()
 
-  # 動画一覧からタグを取得
-  # detail_result = detail_search.get_tags(search_result)
-
-  # try:
-    # search_result = youtube_search()
-    # detail_search.videos(search_response)
-  # except:
-  #   print ("An HTTP error occurred")
-  # except (HttpError, e):
-    # print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+  # 一覧をデータフレームに格納して集計処理
+  data_frame = data_analyze.count_tags(finder_result)
