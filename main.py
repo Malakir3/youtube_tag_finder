@@ -8,7 +8,6 @@ from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
 import json
-import pandas
 import data_analyze
 
 ################################################################################
@@ -46,8 +45,8 @@ def youtube_search():
 
   ##########################################################
   # 任意の後続処理
-  json_result = json.dumps(finder_result,indent=4,ensure_ascii=False)
-  print(json_result)
+  # json_result = json.dumps(finder_result,indent=4,ensure_ascii=False)
+  # print(json_result)
   ##########################################################
 
   return finder_result
