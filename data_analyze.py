@@ -28,5 +28,10 @@ def count_tags(list):
   # print(data_frame)
 
   # タグのグループを作成
-  group_tag = data_frame.groupby('tag')
-  print(group_tag.size())
+  group_tag = data_frame.groupby('tag', as_index=False)
+  
+  # print(group_tag.groups) # 格納対象
+  print(group_tag.size()) # 出現回数
+  # print(group_tag.mean()) # 平均(tag_priority)
+
+
