@@ -1,4 +1,5 @@
 import pandas
+import matplotlib
 
 # データフレームに格納して集計処理
 def count_tags(list):
@@ -33,5 +34,7 @@ def count_tags(list):
   # print(group_tag.groups) # 格納対象
   print(group_tag.size()) # 出現回数
   # print(group_tag.mean()) # 平均(tag_priority)
-
-
+  
+  ax = group_tag.size().plot.bar(rot=0)
+  fig = ax.get_figure()
+  fig.savefig('./result.jpg')
