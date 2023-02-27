@@ -38,3 +38,4 @@ def count_tags(list):
   ax = group_tag.size().plot.bar(rot=0)
   fig = ax.get_figure()
   fig.savefig('./result.jpg')
+  
