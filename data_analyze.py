@@ -30,12 +30,16 @@ def count_tags(list):
 
   # タグのグループを作成
   group_tag = data_frame.groupby('tag', as_index=False)
+  # タグの出現回数を算出後にデータフレームに戻し、多い順に並び変える
+  sorted_group_tag = group_tag.size().reset_index().sort_values('size',ascending=False)
+
+  print(sorted_group_tag)
   
-  # print(group_tag.groups) # 格納対象
-  print(group_tag.size()) # 出現回数
-  # print(group_tag.mean()) # 平均(tag_priority)
+  # # print(group_tag.groups) # 格納対象
+  # print(group_tag.size()) # 出現回数
+  # # print(group_tag.mean()) # 平均(tag_priority)
   
-  ax = group_tag.size().plot.bar(rot=0)
-  fig = ax.get_figure()
-  fig.savefig('./result.jpg')
+  # # ax = group_tag.size().plot.bar(rot=0)
+  # # fig = ax.get_figure()
+  # # fig.savefig('./result.jpg')
   
