@@ -20,7 +20,7 @@ def youtube_search():
     q = SEARCH_WORD,
     type = "video",
     part="id,snippet",
-    maxResults="10",
+    maxResults="5",
     # channelId = CHANNEL_ID,
     videoDuration = "medium",
     order = "viewCount"
