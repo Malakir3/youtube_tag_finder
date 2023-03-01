@@ -30,8 +30,8 @@ def count_tags(list):
 
   # タグのグループを作成
   group_tag = data_frame.groupby('tag', as_index=False)
-  # タグの出現回数を算出後に、多い順に並び変え、インデックスを振り直し
-  sorted_group_tag = group_tag.size().sort_values('size',ascending=False).reset_index(drop=True)
+  # タグの出現回数を算出後に、多い順に並び変え、インデックスを振り直し、先頭の指定行を抽出
+  sorted_group_tag = group_tag.size().sort_values('size',ascending=False).reset_index(drop=True)[0:10]
 
   print(sorted_group_tag)
 
@@ -40,8 +40,10 @@ def count_tags(list):
   # # print(group_tag.mean()) # 平均(tag_priority)
   
   # plt.bar()
-  
-  ax = sorted_group_tag.plot.bar(rot=0)
+
+  # tick_labelを使用したい
+  ax = sorted_group_tag.plot(kind='barh')
   fig = ax.get_figure()
-  fig.savefig('./result.jpg')
+  fig.savefig('./graph/result.jpg')
+  
   
