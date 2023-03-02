@@ -42,7 +42,9 @@ def count_tags(list):
   # plt.bar()
 
   # tick_labelを使用したい
-  ax = sorted_group_tag.plot(kind='barh')
+  ax = sorted_group_tag.plot(kind='barh', title='RESULT', tick_label=['a','b','c','d','e','a','b','c','d','e']) # MatplotlibのAxesSubplotオブジェクト
+
+
   fig = ax.get_figure()
   fig.savefig('./graph/result.jpg')
   
