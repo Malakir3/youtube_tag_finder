@@ -48,4 +48,3 @@ def count_tags(list):
   fig = ax.get_figure()
   fig.savefig('./graph/result.jpg')
   
-  
