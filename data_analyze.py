@@ -1,8 +1,16 @@
 import pandas
-import matplotlib as plt
+import matplotlib.pyplot as plt
+# 日本語フォントを設定
+plt.rcParams['font.family'] = "MS Gothic"
+plt.rcParams['figure.subplot.left'] = 0.2
+plt.rcParams['figure.subplot.bottom'] = 0.1
+# # plt.rcParams["font.size"] = 8
+# # plt.tight_layout(pad=1.0)
+# # plt.subplots_adjust(left=0.2)
+
 
 # データフレームに格納して集計処理
-def count_tags(list):
+def count_tags(list, search_word):
   # データフレーム用の配列を作成
   title_list = []
   view_count_list = []
@@ -31,20 +39,21 @@ def count_tags(list):
   # タグのグループを作成
   group_tag = data_frame.groupby('tag', as_index=False)
   # タグの出現回数を算出後に、多い順に並び変え、インデックスを振り直し、先頭の指定行を抽出
-  sorted_group_tag = group_tag.size().sort_values('size',ascending=False).reset_index(drop=True)[0:10]
+  sorted_group_tag = group_tag.size().sort_values('size',ascending=False).set_index('tag')[0:10].sort_values('size',ascending=True)
+  
 
   print(sorted_group_tag)
 
-  # # print(group_tag.groups) # 格納対象
-  # print(group_tag.size()) # 出現回数
-  # # print(group_tag.mean()) # 平均(tag_priority)
+  axes = sorted_group_tag.plot(kind='barh', title='上位人気タグ') # MatplotlibのAxesSubplotオブジェクト
   
-  # plt.bar()
+  # グラフのプロパティ設定
+  axes.set_xlabel("使用回数")
+  axes.set_ylabel("")
+  axes.get_legend().remove()
+  # axes.xaxis.set_major_locator(MaxNLocator(integer=True))
 
-  # tick_labelを使用したい
-  ax = sorted_group_tag.plot(kind='barh', title='RESULT', tick_label=['a','b','c','d','e','a','b','c','d','e']) # MatplotlibのAxesSubplotオブジェクト
 
-
-  fig = ax.get_figure()
+  fig = axes.get_figure()
+  fig.suptitle('検索ワード："' + search_word + '"')
   fig.savefig('./graph/result.jpg')
   

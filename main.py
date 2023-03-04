@@ -70,4 +70,4 @@ if __name__ == "__main__":
   finder_result = youtube_search()
 
   # 一覧をデータフレームに格納して集計処理
-  data_frame = data_analyze.count_tags(finder_result)
+  data_frame = data_analyze.count_tags(finder_result, SEARCH_WORD)
