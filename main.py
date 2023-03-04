@@ -20,7 +20,7 @@ def youtube_search():
     q = SEARCH_WORD,
     type = "video",
     part="id,snippet",
-    maxResults="5",
+    maxResults = MAX_RESULTS,
     # channelId = CHANNEL_ID,
     videoDuration = "medium",
     order = "viewCount"
@@ -33,12 +33,16 @@ def youtube_search():
       id = each_video["id"]["videoId"],
       part = "snippet,statistics"
     ).execute()
-
+ 
     # 一時的な辞書を作成
     tmp_dict = {}
     tmp_dict["title"] = video_detail["items"][0]["snippet"]["title"]
     tmp_dict["view_count"] = video_detail["items"][0]["statistics"]["viewCount"]
-    tmp_dict["tags"] = video_detail["items"][0]["snippet"]["tags"]
+
+    if 'tags' in video_detail["items"][0]["snippet"]:
+      tmp_dict["tags"] = video_detail["items"][0]["snippet"]["tags"]
+    else:
+      tmp_dict["tags"] = ["タグ無し"]
 
     # 結果配列に辞書を格納
     finder_result.append(tmp_dict)
@@ -59,6 +63,7 @@ YOUTUBE_API_SERVICE_NAME = os.environ.get('YOUTUBE_API_SERVICE_NAME')
 YOUTUBE_API_VERSION = os.environ.get('YOUTUBE_API_VERSION')
 CHANNEL_ID = os.environ.get('CHANNEL_ID')
 SEARCH_WORD = os.environ.get('SEARCH_WORD')
+MAX_RESULTS = os.environ.get('MAX_RESULTS')
 
 if __name__ == "__main__":
   # 検索条件の一部を外部から受け取る場合
@@ -70,4 +75,4 @@ if __name__ == "__main__":
   finder_result = youtube_search()
 
   # 一覧をデータフレームに格納して集計処理
-  data_frame = data_analyze.count_tags(finder_result, SEARCH_WORD)
+  data_frame = data_analyze.count_tags(finder_result, SEARCH_WORD, MAX_RESULTS)
