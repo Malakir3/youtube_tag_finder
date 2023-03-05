@@ -1,13 +1,8 @@
 #!/usr/bin/python
 
-# テンプレート記載モジュール
 from googleapiclient.discovery import build
-# from oauth2client.tools import argparser
-
-# 追記モジュール
 from dotenv import load_dotenv
 import os
-import json
 import data_analyze
 
 ################################################################################
@@ -21,9 +16,10 @@ def youtube_search():
     type = "video",
     part="id,snippet",
     maxResults = MAX_RESULTS,
-    # channelId = CHANNEL_ID,
-    videoDuration = "medium",
     order = "viewCount"
+    # 以下は任意で設定
+    # channelId = CHANNEL_ID,
+    # videoDuration = "medium",
   ).execute()
 
   # 動画の詳細情報を検索
@@ -38,7 +34,7 @@ def youtube_search():
     tmp_dict = {}
     tmp_dict["title"] = video_detail["items"][0]["snippet"]["title"]
     tmp_dict["view_count"] = video_detail["items"][0]["statistics"]["viewCount"]
-
+    # タグが設定されていない動画は例外として扱う
     if 'tags' in video_detail["items"][0]["snippet"]:
       tmp_dict["tags"] = video_detail["items"][0]["snippet"]["tags"]
     else:
@@ -49,6 +45,7 @@ def youtube_search():
 
   ##########################################################
   # 任意の後続処理
+  # 例：結果を表示
   # json_result = json.dumps(finder_result,indent=4,ensure_ascii=False)
   # print(json_result)
   ##########################################################
@@ -66,13 +63,12 @@ SEARCH_WORD = os.environ.get('SEARCH_WORD')
 MAX_RESULTS = os.environ.get('MAX_RESULTS')
 
 if __name__ == "__main__":
-  # 検索条件の一部を外部から受け取る場合
-  # argparser.add_argument("--q", help="Search term", default="yoyo")
-  # argparser.add_argument("--max-results", help="Max results", default=5)
-  # args = argparser.parse_args()
-
   # 動画詳細の一覧を取得
   finder_result = youtube_search()
 
-  # 一覧をデータフレームに格納して集計処理
-  data_frame = data_analyze.count_tags(finder_result, SEARCH_WORD, MAX_RESULTS)
+  # 一覧をデータフレームに格納
+  data_frame = data_analyze.create_data_frame(finder_result)
+
+  # データフレームからグラフを出力
+  data_analyze.create_result_graph(data_frame, SEARCH_WORD, MAX_RESULTS)
+
