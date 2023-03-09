@@ -9,9 +9,9 @@ python -v 3.10.4
 
 # 使用ライブラリ
 - google-api-python-client -v 2.78.0
-- python-dotenv -v 0.21.1
-- pandas -v 1.5.3
 - matplotlib -v 3.7.0
+- pandas -v 1.5.3
+- python-dotenv -v 0.21.1
 
 # 制作背景
 YouTubeDataAPIを使って何かできないかと考え、当初は漠然とYouTubeDataAPIの公式ドキュメントを見ていました。その際に、動画投稿者が各動画に対して任意で付与できるタグの存在を知りました。<br>
