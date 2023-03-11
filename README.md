@@ -55,7 +55,7 @@ https://developers.google.com/youtube/v3/getting-started?hl=ja
   YOUTUBE_API_SERVICE_NAME = "youtube"
   YOUTUBE_API_VERSION = "v3"
   CHANNEL_ID = "ANY_CHANNEL_ID" # 任意
-  SEARCH_WORD = "プログラミング" 
+  SEARCH_WORD = "大乱闘スマッシュブラザーズ" 
   MAX_RESULTS = "50"
 ```
 
