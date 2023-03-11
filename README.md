@@ -2,7 +2,8 @@
 YouTube Tag Finder
 
 # 概要
-YouTubeに投稿されている動画に付けられているタグを一括取得し、どんなタグの使用頻度が高いのかを調査します。
+YouTubeに投稿されている動画に付けられているタグを一括取得し、どんなタグの使用頻度が高いのかを調査します。<br>
+![result_example](graph_dummy/result_dummy.jpg)
 
 # 環境
 python -v 3.10.4
